@@ -695,7 +695,7 @@ interface Service {
     suspend fun getVariantTitlesByTitles(@Query("titles") titles: String): MwQueryResponse
 
     companion object {
-        const val WIKIPEDIA_URL = "https://wikipedia.org/"
+        const val WIKIPEDIA_URL = "https://wiktionary.org/"
         const val WIKIDATA_URL = "https://www.wikidata.org/"
         const val COMMONS_URL = "https://commons.wikimedia.org/"
         const val URL_FRAGMENT_FROM_COMMONS = "/wikipedia/commons/"

@@ -142,11 +142,11 @@ class PageFragmentLoadState(private var model: PageViewModel,
                         return@launch
                     }
 
-                    val pageSummaryRequest = async {
+                    /*val pageSummaryRequest = async {
                         ServiceFactory.getRest(title.wikiSite).getSummaryResponse(title.prefixedText, cacheControl = model.cacheControl.toString(),
                             saveHeader = if (model.isInReadingList) OfflineCacheInterceptor.SAVE_HEADER_SAVE else null,
                             langHeader = title.wikiSite.languageCode, titleHeader = UriUtil.encodeURL(title.prefixedText))
-                    }
+                    }*/
                     val makeWatchRequest = WikipediaApp.instance.isOnline && AccountUtil.isLoggedIn
                     val watchedRequest = async {
                         if (makeWatchRequest) {
@@ -164,19 +164,19 @@ class PageFragmentLoadState(private var model: PageViewModel,
                             MwQueryResponse()
                         }
                     }
-                    val pageSummaryResponse = pageSummaryRequest.await()
+                    //val pageSummaryResponse = pageSummaryRequest.await()
                     val watchedResponse = watchedRequest.await()
                     val categoriesResponse = categoriesRequest.await()
                     val isWatched = watchedResponse.query?.firstPage()?.watched == true
                     val hasWatchlistExpiry = watchedResponse.query?.firstPage()?.hasWatchlistExpiry() == true
-                    if (pageSummaryResponse.body() == null) {
-                        throw RuntimeException("Summary response was invalid.")
-                    }
-                    val redirectedFrom = if (pageSummaryResponse.raw().priorResponse?.isRedirect == true) model.title?.displayText else null
-                    createPageModel(pageSummaryResponse, isWatched, hasWatchlistExpiry)
-                    if (OfflineCacheInterceptor.SAVE_HEADER_SAVE == pageSummaryResponse.headers()[OfflineCacheInterceptor.SAVE_HEADER]) {
-                        showPageOfflineMessage(pageSummaryResponse.headers().getInstant("date"))
-                    }
+                    //if (pageSummaryResponse.body() == null) {
+                    //    throw RuntimeException("Summary response was invalid.")
+                    //}
+                    //val redirectedFrom = if (pageSummaryResponse.raw().priorResponse?.isRedirect == true) model.title?.displayText else null
+                    //createPageModel(pageSummaryResponse, isWatched, hasWatchlistExpiry)
+                    //if (OfflineCacheInterceptor.SAVE_HEADER_SAVE == pageSummaryResponse.headers()[OfflineCacheInterceptor.SAVE_HEADER]) {
+                    //    showPageOfflineMessage(pageSummaryResponse.headers().getInstant("date"))
+                    //}
 
                     val categoryList = (categoriesResponse.query ?: watchedResponse.query)?.firstPage()?.categories?.map { category ->
                         Category(title = category.title, lang = title.wikiSite.languageCode)
@@ -188,7 +188,7 @@ class PageFragmentLoadState(private var model: PageViewModel,
                     if (delayLoadHtml) {
                         bridge.resetHtml(title)
                     }
-                    fragment.onPageMetadataLoaded(redirectedFrom)
+                    //fragment.onPageMetadataLoaded(redirectedFrom)
 
                     if (AnonymousNotificationHelper.shouldCheckAnonNotifications(watchedResponse)) {
                         checkAnonNotifications(title)

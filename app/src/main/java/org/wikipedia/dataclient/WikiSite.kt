@@ -130,7 +130,7 @@ data class WikiSite(
 
     companion object {
         const val DEFAULT_SCHEME = "https"
-        const val BASE_DOMAIN = "wikipedia.org"
+        const val BASE_DOMAIN = "wiktionary.org"
         private var DEFAULT_BASE_URL: String? = null
 
         fun supportedAuthority(authority: String): Boolean {
